@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cards Interativos</title>
+    <!-- Carrega o Tailwind CSS para estilização -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Carrega Font Awesome para ícones -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" xintegrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0V4LLanw2qksYuRlEzO+tcaEPQogQ0KaoGN26/zrn20ImR1DfuLWnOo7aBA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Carrega a fonte Great Vibes do Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+    <style>
+        /* Estilo personalizado para a fonte Inter (para o corpo) */
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Estilo para o título do cabeçalho usando a fonte Great Vibes */
+        .header-title {
+            font-family: 'Great Vibes', cursive;
+        }
+        /* Nova classe para a cor marrom escuro */
+        .text-dark-brown {
+            color: #5C4033; /* Um tom de marrom escuro */
+        }
+        /* Estilos para o modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        .modal-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        .modal-content {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 0.75rem; /* rounded-xl */
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1); /* shadow-lg */
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh; /* Limita a altura do modal */
+            overflow-y: auto; /* Adiciona rolagem se o conteúdo for muito grande */
+            transform: translateY(-20px);
+            transition: transform 0.3s ease;
+        }
+        .modal-overlay.show .modal-content {
+            transform: translateY(0);
+        }
+        /* Estilos para a tabela dentro do modal */
+        .conversion-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+        .conversion-table th, .conversion-table td {
+            border: 1px solid #e5e7eb; /* gray-200 */
+            padding: 0.75rem;
+            text-align: left;
+        }
+        .conversion-table th {
+            background-color: #f3f4f6; /* gray-100 */
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body class="bg-pink-200 min-h-screen flex flex-col items-center justify-between p-4">
+
+    <!-- Cabeçalho -->
+    <header class="w-full text-center py-4 md:py-8">
+        <h1 class="text-3xl md:text-4xl font-bold text-gray-800 header-title">
+            <i class="fas fa-heartbeat text-dark-brown mr-3"></i>Dia a Diabetes
+        </h1>
+    </header>
+
+    <!-- Conteúdo principal - Cards -->
+    <main class="container mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 my-auto justify-items-center flex-grow">
+        <!-- Card 1: Glicemia Baixa -->
+        <div id="card1" class="bg-white rounded-xl shadow-lg p-6 w-full max-w-sm flex flex-col items-center justify-center text-center cursor-pointer transform transition-transform duration-200 hover:scale-105" onclick="handleCardClick('Glicemia baixa')">
+            <p class="text-lg font-semibold text-dark-brown">Glicemia baixa</p>
+            <p class="text-md text-dark-brown mt-2">Como proceder?</p>
+        </div>
+
+        <!-- Card 2: Glicemia Alta -->
+        <div id="card2" class="bg-white rounded-xl shadow-lg p-6 w-full max-w-sm flex flex-col items-center justify-center text-center cursor-pointer transform transition-transform duration-200 hover:scale-105" onclick="handleCardClick('Glicemia alta')">
+            <p class="text-lg font-semibold text-dark-brown">Glicemia alta</p>
+            <p class="text-md text-dark-brown mt-2">Como proceder?</p>
+        </div>
+
+        <!-- Card 3: Cálculo de Insulina -->
+        <div id="card3" class="bg-white rounded-xl shadow-lg p-6 w-full max-w-sm flex flex-col items-center justify-center text-center cursor-pointer transform transition-transform duration-200 hover:scale-105" onclick="handleCardClick('Cálculo de Insulina')">
+            <p class="text-lg font-semibold text-dark-brown">Cálculo de insulina</p>
+            <p class="text-md text-dark-brown mt-2">correção de glicemia / carboidratos</p>
+        </div>
+
+        <!-- Card 4: Tabela de Medidas -->
+        <div id="card4" class="bg-white rounded-xl shadow-lg p-6 w-full max-w-sm flex flex-col items-center justify-center text-center cursor-pointer transform transition-transform duration-200 hover:scale-105" onclick="handleCardClick('Tabela de Medidas')">
+            <p class="text-lg font-semibold text-dark-brown">Tabela de medidas</p>
+            <p class="text-md text-dark-brown mt-2">(conversão em gramas)</p>
+        </div>
+
+        <!-- Novo Card 5: Dicas para comer bem -->
+        <div id="card5" class="bg-white rounded-xl shadow-lg p-6 w-full max-w-sm flex flex-col items-center justify-center text-center cursor-pointer transform transition-transform duration-200 hover:scale-105" onclick="handleCardClick('Dicas para comer bem')">
+            <p class="text-lg font-semibold text-dark-brown">Dicas para comer bem</p>
+            <p class="text-md text-dark-brown mt-2">Alimentação saudável</p>
+        </div>
+    </main>
+
+    <!-- Rodapé com a mensagem de aviso -->
+    <footer class="w-full text-center py-2 px-4">
+        <p class="text-xs text-dark-brown">
+            Nunca se esqueça que para uma vida mais saudável, se faz imprescindível o acompanhamento médico e nutricional.
+        </p>
+    </footer>
+
+    <!-- Modal para Cálculo de Insulina -->
+    <div id="insulinCalcModal" class="modal-overlay">
+        <div class="modal-content">
+            <h2 class="text-2xl font-bold text-dark-brown mb-4 text-center">Calculadora de Insulina</h2>
+            <div class="space-y-4">
+                <!-- Dados de Entrada do Usuário -->
+                <div>
+                    <label for="choCorrecao" class="block text-sm font-medium text-dark-brown">A cada quantos gramas (g) de CHO deve-se aplicar uma unidade de insulina?</label>
+                    <input type="number" id="choCorrecao" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-pink-500 focus:ring-pink-500 sm:text-sm p-2" placeholder="Ex: 10">
+                </div>
+                <div>
+                    <label for="glicemiaCorrecao" class="block text-sm font-medium text-dark-brown">A cada quantos mg/dL de glicemia deve-se aplicar uma unidade de insulina?</label>
+                    <input type="number" id="glicemiaCorrecao" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-pink-500 focus:ring-pink-500 sm:text-sm p-2" placeholder="Ex: 50">
+                </div>
+                <div>
+                    <label for="glicemiaMax" class="block text-sm font-medium text-dark-brown">A partir de quantos mg/dL deve-se fazer a correção para glicemia?</label>
+                    <input type="number" id="glicemiaMax" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-pink-500 focus:ring-pink-500 sm:text-sm p-2" placeholder="Ex: 150">
+                </div>
+                <div>
+                    <label for="glicemiaMedida" class="block text-sm font-medium text-dark-brown">Qual o valor da sua glicemia atual?</label>
+                    <input type="number" id="glicemiaMedida" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-pink-500 focus:ring-pink-500 sm:text-sm p-2" placeholder="Ex: 200">
+                </div>
+
+                <h3 class="text-lg font-semibold text-dark-brown mt-6">Alimentos Consumidos:</h3>
+                <div class="flex flex-col sm:flex-row gap-2">
+                    <!-- Input com datalist para sugestões -->
+                    <input type="text" id="foodName" list="foodSuggestions" class="flex-grow rounded-md border-gray-300 shadow-sm focus:border-pink-500 focus:ring-pink-500 sm:text-sm p-2" placeholder="Digite o nome do alimento">
+                    <datalist id="foodSuggestions"></datalist>
+                    <input type="number" id="foodQuantity" class="w-full sm:w-1/3 rounded-md border-gray-300 shadow-sm focus:border-pink-500 focus:ring-pink-500 sm:text-sm p-2" placeholder="Quantidade (g)">
+                    <button id="addFoodBtn" class="bg-pink-500 text-white px-4 py-2 rounded-md hover:bg-pink-600 transition duration-200">Adicionar Alimento</button>
+                </div>
+                <div id="foodList" class="mt-2 border border-gray-200 rounded-md p-2 max-h-40 overflow-y-auto">
+                    <!-- Lista de alimentos adicionados aqui -->
+                    <p class="text-sm text-gray-500" id="noFoodMessage">Nenhum alimento adicionado ainda.</p>
+                </div>
+                <div id="errorMessage" class="text-red-600 text-sm mt-2 hidden"></div>
+
+                <div class="flex justify-end gap-4 mt-6">
+                    <button id="calculateInsulinBtn" class="bg-green-500 text-white px-6 py-3 rounded-md hover:bg-green-600 transition duration-200 font-bold">Calcular Insulina</button>
+                    <button id="closeModalBtn" class="bg-gray-300 text-gray-800 px-6 py-3 rounded-md hover:bg-gray-400 transition duration-200">Fechar</button>
+                </div>
+
+                <div id="results" class="mt-6 p-4 bg-pink-100 rounded-md text-dark-brown hidden">
+                    <p class="font-semibold text-lg">Resultados:</p>
+                    <p id="totalChoResult"></p>
+                    <p id="glicemiaMedidaResult"></p>
+                    <p id="insulinaAplicarResult" class="text-xl font-bold"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para Glicemia Baixa -->
+    <div id="lowGlucoseModal" class="modal-overlay">
+        <div class="modal-content">
+            <h2 class="text-2xl font-bold text-dark-brown mb-4 text-center">Glicemia Baixa: Como Proceder</h2>
+            <div class="text-dark-brown text-base leading-relaxed">
+                <p class="mb-4">Para casos de hipoglicemia, especialmente se forem recorrentes ou graves, a busca por atendimento médico imediato é crucial.</p>
+                <p class="mb-4">A hipoglicemia é o oposto da hiperglicemia (glicemia alta) e se caracteriza por níveis de açúcar no sangue (glicose) anormalmente baixos. Ela pode ser perigosa e, se não tratada, pode levar a complicações sérias.</p>
+
+                <p class="font-bold text-lg mb-2">RECOMENDAÇÕES PARA HIPOGLICEMIA:</p>
+
+                <p class="font-bold mb-1">Tratamento Imediato (Se a pessoa estiver consciente):</p>
+                <p class="mb-2">Consumir 15 gramas de carboidratos de ação rápida:</p>
+                <p class="mb-2">Isso ajuda a elevar rapidamente os níveis de glicose no sangue. Exemplos incluem:</p>
+                <ul class="list-disc list-inside ml-4 mb-4">
+                    <li>1 colher de sopa de açúcar diluída em água.</li>
+                    <li>1/2 copo (120 ml) de suco de frutas natural (laranja, uva, maçã).</li>
+                    <li>1/2 copo (120 ml) de refrigerante comum (não dietético).</li>
+                    <li>1 colher de sopa de mel.</li>
+                </ul>
+                <p class="mb-4">Aguardar 15 minutos e verificar a glicemia novamente.</p>
+                <p class="mb-4">Se a glicemia ainda estiver baixa (abaixo de 70 mg/dL), repetir o processo.</p>
+                <p class="mb-4">Assim que a glicemia normalizar, fazer um lanche ou refeição que inclua carboidratos complexos e proteínas para manter os níveis estáveis e evitar uma nova queda (ex: pão integral com queijo, fruta com iogurte).</p>
+
+                <p class="font-bold mb-1">Tratamento Imediato (Se a pessoa estiver inconsciente ou não conseguir engolir):</p>
+                <ul class="list-disc list-inside ml-4 mb-4">
+                    <li><strong>NÃO</strong> tentar dar alimentos ou líquidos pela boca, pois há risco de engasgos.</li>
+                    <li>Se houver um kit de glucagon disponível (com receita médica), administrá-lo. O glucagon é um hormônio que age rapidamente para aumentar a glicose no sangue.</li>
+                    <li>Procurar atendimento médico de emergência imediatamente (ligar para o SAMU/192 ou levar a pessoa ao hospital mais próximo).</li>
+                    <li>Se não houver glucagon e não for possível levá-lo ao hospital, pode-se colocar um pouco de açúcar ou mel embaixo da língua ou entre a gengiva e a bochecha. Isso pode ajudar a absorver a glicose e acordar a pessoa, mas o atendimento médico ainda é crucial.</li>
+                </ul>
+
+                <p class="font-bold mb-1">Prevenção da Hipoglicemia:</p>
+                <ul class="list-disc list-inside ml-4 mb-4">
+                    <li><strong>Monitoramento regular da glicemia:</strong> Para entender como a alimentação, exercício e medicação afetam os níveis de açúcar no sangue.</li>
+                    <li><strong>Adesão rigorosa ao plano alimentar:</strong> Não pular refeições e distribuir os carboidratos ao longo do dia.</li>
+                    <li><strong>Levar consigo carboidratos de ação rápida:</strong> Para tratamento imediato de sintomas de hipoglicemia.</li>
+                    <li><strong>Educação sobre a hipoglicemia:</strong> Reconhecer os sintomas (tremores, suores, tontura, confusão, fome excessiva, palpitações, fraqueza).</li>
+                    <li><strong>Informar amigos e familiares:</strong> Para que saibam o que fazer em caso de hipoglicemia grave.</li>
+                </ul>
+            </div>
+            <div class="flex justify-end mt-6">
+                <button id="closeLowGlucoseModalBtn" class="bg-gray-300 text-gray-800 px-6 py-3 rounded-md hover:bg-gray-400 transition duration-200">Fechar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para Glicemia Alta -->
+    <div id="highGlucoseModal" class="modal-overlay">
+        <div class="modal-content">
+            <h2 class="text-2xl font-bold text-dark-brown mb-4 text-center">Glicemia Alta: Como Proceder</h2>
+            <div class="text-dark-brown text-base leading-relaxed">
+                <p class="mb-4">Para alguém que se encontra com a glicemia alta, a primeira e mais importante recomendação seria procurar um médico endocrinologista o mais rápido possível. A glicemia alta pode ser um sinal de pré-diabetes ou diabetes, condições que precisam de diagnóstico e manejo adequados para evitar complicações sérias a longo prazo.</p>
+                <p class="mb-4">Enquanto a pessoa aguarda a consulta médica, algumas medidas gerais que podem ajudar a gerenciar a glicemia são:</p>
+
+                <p class="font-bold text-lg mb-2">RELACIONADOS À ALIMENTAÇÃO</p>
+                <ul class="list-disc list-inside ml-4 mb-4">
+                    <li><strong>Mudanças na Dieta:</strong>
+                        <ul class="list-disc list-inside ml-4">
+                            <li>Redução de açúcares simples: Evitar refrigerantes, doces, bolos, sucos industrializados.</li>
+                        </ul>
+                    </li>
+                    <li><strong>Controle de carboidratos:</strong>
+                        <ul class="list-disc list-inside ml-4">
+                            <li>Optar por carboidratos complexos (grãos integrais, vegetais) e controlar as porções.</li>
+                        </ul>
+                    </li>
+                    <li><strong>Aumento de fibras:</strong>
+                        <ul class="list-disc list-inside ml-4">
+                            <li>Consumir mais vegetais, frutas e leguminosas, que ajudam a controlar a absorção de glicose.</li>
+                        </ul>
+                    </li>
+                    <li><strong>Alimentos com baixo índice glicêmico:</strong>
+                        <ul class="list-disc list-inside ml-4">
+                            <li>Preferir alimentos que liberam açúcar mais lentamente na corrente sanguínea.</li>
+                        </ul>
+                    </li>
+                    <li><strong>Distribuição das refeições:</strong>
+                        <ul class="list-disc list-inside ml-4">
+                            <li>Fazer refeições menores e mais frequentes para evitar picos de glicose.</li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <p class="font-bold text-lg mb-2">OUTRAS MEDIDAS IMPORTANTES</p>
+                <ul class="list-disc list-inside ml-4 mb-4">
+                    <li><strong>Aumento da Atividade Física:</strong> A prática regular de exercícios físicos (caminhada, corrida, natação, etc.) ajuda as células a utilizarem melhor a glicose, reduzindo os níveis no sangue. Recomenda-se pelo menos 150 minutos de atividade física moderada por semana.</li>
+                    <li><strong>Hidratação:</strong> Beber bastante água é importante para a saúde geral e pode ajudar os rins a eliminar o excesso de glicose.</li>
+                    <li><strong>Evitar o Tabagismo e Reduzir o Consumo de Álcool:</strong> Ambos podem ter efeitos negativos sobre o controle da glicemia e a saúde em geral.</li>
+                    <li><strong>Gerenciamento do Estresse:</strong> O estresse pode influenciar os níveis de glicose. Técnicas de relaxamento como meditação, yoga ou hobbies podem ser úteis.</li>
+                </ul>
+            </div>
+            <div class="flex justify-end mt-6">
+                <button id="closeHighGlucoseModalBtn" class="bg-gray-300 text-gray-800 px-6 py-3 rounded-md hover:bg-gray-400 transition duration-200">Fechar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para Tabela de Medidas -->
+    <div id="conversionTableModal" class="modal-overlay">
+        <div class="modal-content">
+            <h2 class="text-2xl font-bold text-dark-brown mb-4 text-center">Tabela de Conversão de Medidas</h2>
+            <div class="text-dark-brown text-base leading-relaxed">
+                <table class="conversion-table">
+                    <thead>
+                        <tr>
+                            <th>MEDIDA CASEIRA</th>
+                            <th>CONVERSÃO (EM GRAMAS)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="conversionTableBody">
+                        <!-- Conteúdo da tabela será inserido aqui pelo JavaScript -->
+                    </tbody>
+                </table>
+                <p class="text-xs text-gray-600 mt-4 text-center">
+                    tabela baseada em valores médios, podendo ter desvios de acordo com o
+                    instrumento utilizado e alimento medido. Portanto, pode apresentar
+                    erros significativos para cálculo, sendo o ideal medir em uma balança
+                    para um resultado mais assertivo.
+                </p>
+            </div>
+            <div class="flex justify-end mt-6">
+                <button id="closeConversionTableModalBtn" class="bg-gray-300 text-gray-800 px-6 py-3 rounded-md hover:bg-gray-400 transition duration-200">Fechar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para Dicas para Comer Bem -->
+    <div id="eatWellTipsModal" class="modal-overlay">
+        <div class="modal-content">
+            <h2 class="text-2xl font-bold text-dark-brown mb-4 text-center">Dicas para Comer Bem</h2>
+            <div class="text-dark-brown text-base leading-relaxed">
+                <p class="mb-4">O açúcar, embora não seja o único, é um dos principais fatores a serem controlados na alimentação de pessoas com diabetes. Endocrinologistas e nutricionistas frequentemente indicam a restrição do consumo de açúcar como uma das primeiras medidas dietéticas. Contudo, a dieta para diabetes vai além do simples corte de doces.</p>
+                <p class="mb-4">Os alimentos que mais impactam os níveis glicêmicos são geralmente ricos em açúcares simples e carboidratos, nem sempre óbvios à primeira vista. É crucial evitar ao máximo produtos como doces, bolos, biscoitos, chocolates, cereais açucarados, sucos industrializados e refrigerantes para um controle eficaz da glicose.</p>
+
+                <p class="font-bold text-lg mb-2">Alimentos com Alto Índice Glicêmico Oculto</p>
+                <ul class="list-disc list-inside ml-4 mb-4">
+                    <li>Pães brancos e produtos de panificação refinados em geral</li>
+                    <li>Sucos naturais (mesmo sem adição de açúcar)</li>
+                    <li>Molhos prontos</li>
+                    <li>Frutas enlatadas em calda</li>
+                    <li>Salgadinhos</li>
+                    <li>Bebidas alcoólicas</li>
+                </ul>
+
+                <p class="font-bold text-lg mb-2">Promovendo o Equilíbrio e o Prazer à Mesa</p>
+                <p class="mb-4">Conciliar as restrições alimentares com o prazer de comer exige mudanças de hábito, a exploração de novas receitas e a incorporação de trocas saudáveis. A seguir, apresentamos uma lista de opções nutritivas e saborosas que podem ser incluídas na dieta diária, beneficiando tanto pessoas com diabetes quanto aqueles que buscam um estilo de vida mais saudável.</p>
+
+                <div class="flex flex-wrap justify-center gap-4 my-6">
+                    <button id="btnBreakfast" class="bg-pink-500 text-white px-4 py-2 rounded-md hover:bg-pink-600 transition duration-200 text-sm font-bold">Café da Manhã</button>
+                    <button id="btnMainMeals" class="bg-pink-500 text-white px-4 py-2 rounded-md hover:bg-pink-600 transition duration-200 text-sm font-bold">Refeições Principais</button>
+                    <button id="btnSnacks" class="bg-pink-500 text-white px-4 py-2 rounded-md hover:bg-pink-600 transition duration-200 text-sm font-bold">Lanches</button>
+                    <button id="btnDesserts" class="bg-pink-500 text-white px-4 py-2 rounded-md hover:bg-pink-600 transition duration-200 text-sm font-bold">Sobremesas</button>
+                </div>
+
+                <div id="foodCategoryContent" class="mt-4 p-4 bg-pink-100 rounded-md text-dark-brown hidden">
+                    <h3 class="font-bold text-lg mb-2" id="foodCategoryTitle"></h3>
+                    <p id="foodCategoryText"></p>
+                </div>
+
+                <p class="text-xs text-gray-600 mt-4 text-center">Esperamos que estas dicas contribuam para uma alimentação mais equilibrada e prazerosa.</p>
+            </div>
+            <div class="flex justify-end mt-6">
+                <button id="closeEatWellTipsModalBtn" class="bg-gray-300 text-gray-800 px-6 py-3 rounded-md hover:bg-gray-400 transition duration-200">Fechar</button>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        // Dicionário de CHO dos alimentos (traduzido do Python)
+        const cho_alimento = {
+            "refrigerante guaraná": 10.2, "refrigerante de laranja": 10.2, "refrigerante de limão": 9.0,
+            "suco de caju concentrado néctar": 11.5, "suco de caju néctar light": 2.7,
+            "suco de laranja concentrado comum": 10.0, "suco de laranja concentrado light": 2.7,
+            "suco de maracujá concentrado néctar": 12.0, "suco de maracujá néctar light": 2.8,
+            "suco de morango concentrado néctar": 13.0, "suco de pêssego concentrado néctar": 12.0,
+            "suco de tangerina concentrado néctar": 12.0, "água de coco": 5.3, "água mineral": 0.0,
+            "vinho tinto": 2.5, "abacate cru": 6.0, "abacaxi cru": 11.3, "abacaxi em calda": 19.0,
+            "abacaxi polpa congelada": 12.0, "abiu": 15.2, "abricó": 21.8, "açaí polpa congelada": 3.8,
+            "acerola": 7.4, "acerola polpa congelada": 8.2, "ameixa fresca": 11.4, "ameixa seca": 65.3,
+            "amora": 8.3, "ata": 25.6, "banana prata": 26.0, "banana nanica": 22.3, "banana ouro": 26.0,
+            "banana pacovã": 23.2, "banana da terra": 26.0, "cajá": 10.4, "caju": 12.0,
+            "caqui chocolate": 18.3, "carambola": 6.3, "cereja": 13.6, "cidra": 6.8,
+            "cupuaçu polpa congelada": 13.0, "damasco seco": 68.0, "figo": 19.0, "figo seco": 64.0,
+            "framboesa": 12.0, "fruta-pão cozida": 27.0, "goiaba branca": 10.8, "goiaba vermelha": 11.8,
+            "graviola": 16.8, "graviola polpa congelada": 17.2, "jabuticaba": 10.8, "jaca": 24.0,
+            "jambo": 9.8, "jambolão": 16.0, "kiwi": 14.0, "laranja baía": 10.8, "laranja lima": 11.8,
+            "laranja pêra": 10.8, "limão cravo": 8.2, "limão galego": 7.6, "limão siciliano": 8.0,
+            "maçã com casca": 13.6, "maçã sem casca": 13.0, "mamão formosa": 10.8, "mamão papaia": 10.0,
+            "manga espada": 16.8, "manga palmer": 15.0, "maracujá polpa congelada": 13.6, "melancia": 8.0,
+            "melão": 8.0, "nectarina": 12.0, "nêspera": 12.0, "pinha": 25.0, "pera": 15.0,
+            "pêssego": 10.0, "pitanga": 9.8, "romã": 17.0, "tamarindo": 52.0, "tangerina murcott": 12.0,
+            "toranja, crua": 10.0, "uva": 17.0, "abóbora moranga cozida": 5.0, "abóbora moranga crua": 4.0,
+            "abóbora moranga refogada": 5.0, "abobrinha cozida": 2.0, "abobrinha crua": 3.0,
+            "abobrinha refogada": 3.0, "agrião cru": 2.0, "aipo cru": 3.0, "alcachofra cozida": 10.0,
+            "alface americana crua": 2.0, "alface crespa": 2.0, "alface lisa": 2.0, "alface roxa": 2.0,
+            "alho": 33.0, "alho-poró": 14.0, "almeirão cru": 3.0, "almeirão refogado": 4.0,
+            "batata cozida": 18.0, "batata doce cozida": 20.0, "batata doce crua": 24.0,
+            "batata frita": 32.0, "batata inglesa crua": 19.0, "beringela cozida": 4.0,
+            "beringela crua": 5.0, "beringela refogada": 5.0, "beterraba cozida": 8.0,
+            "beterraba crua": 9.0, "brócolis cozido": 4.0, "brócolis cru": 4.0,
+            "broto de bambu cozido": 4.0, "broto de bambu cru": 3.0, "broto de feijão cru": 4.0,
+            "cará cozido": 24.0, "cará cru": 28.0, "cenoura cozida": 7.0, "cenoura crua": 8.0,
+            "chicória crua": 2.0, "couve manteiga crua": 4.0, "couve manteiga refogada": 5.0,
+            "couve-flor cozida": 4.0, "couve-flor crua": 5.0, "ervilha fresca cozida": 14.0,
+            "ervilha fresca crua": 15.0, "ervilha enlatada": 11.0, "espinafre cozido": 4.0,
+            "espinafre cru": 4.0, "inhame cozido": 24.0, "inhame cru": 28.0, "jiló cozido": 4.0,
+            "jiló cru": 5.0, "mandioca cozida": 30.0, "mandioca crua": 34.0,
+            "mandioquinha cozida": 18.0, "mandioquinha crua": 21.0, "milho verde cozido": 19.0,
+            "milho verde cru": 22.0, "palmito pupunha cru": 4.0, "palmito pupunha em conserva": 3.0,
+            "pepino cru": 3.0, "pimentão verde cru": 4.0, "quiabo cozido": 6.0, "quiabo cru": 7.0,
+            "repolho branco": 4.0, "repolho roxo": 5.0, "rúcula": 2.0, "tomate cereja": 4.0,
+            "tomate caqui": 4.0, "tomate italiano": 4.0, "tomate salada": 3.0, "vagem cozida": 7.0,
+            "vagem crua": 8.0, "açafrão em pó": 65.0, "alecrim fresco": 20.0,
+            "alcaparra em conserva": 5.0, "alga": 45.0, "alho desidratado": 70.0,
+            "azeitona preta em conserva": 6.0, "azeitona verde em conserva": 4.0,
+            "baunilha extrato": 12.0, "cacau em pó": 58.0, "canela em pó": 80.0,
+            "cebola crua": 9.0, "cebola refogada": 10.0, "cebolinha crua": 4.0,
+            "cheiro-verde cru": 5.0, "coentro fresco": 4.0, "cominho em pó": 50.0,
+            "cravo em pó": 60.0, "curry em pó": 50.0, "gengibre cru": 18.0, "hortelã fresca": 7.0,
+            "louro folha seca": 49.0, "manjericão fresco": 5.0, "noz-moscada em pó": 49.0,
+            "orégano, seco": 64.0, "páprica doce em pó": 54.0, "pimenta do reino preta em pó": 65.0,
+            "salsa fresca": 6.0, "tomilho fresco": 24.0, "agrião": 2.0, "alface americana": 2.0,
+            "alface crespa": 2.0, "alface lisa": 2.0, "alface roxa": 2.0, "almeirão ": 3.0,
+            "brócolis cozido": 4.0, "brócolis cru": 4.0, "cenoura cozida": 7.0, "cenoura crua": 8.0,
+            "chicória crua": 2.0, "couve manteiga crua": 4.0, "couve manteiga refogada": 5.0,
+            "couve-flor cozida": 4.0, "couve-flor crua": 5.0, "espinafre cozido": 4.0,
+            "espinafre cru": 4.0, "pepino": 3.0, "pimentão verde": 4.0, "repolho branco": 4.0,
+            "repolho roxo": 5.0, "rúcula": 2.0, "tomate cereja": 4.0, "tomate caqui": 4.0,
+            "tomate italiano": 4.0, "tomate salada": 3.0, "vagem cozida": 7.0, "vagem crua": 8.0,
+            "arroz integral cozido": 28.0, "arroz integral cru": 74.0, "arroz parboilizado cozido": 28.0,
+            "arroz parboilizado cru": 77.0, "arroz cozido": 28.0, "arroz cru": 78.0,
+            "aveia em flocos": 66.0, "biscoito água e sal": 70.0, "biscoito doce maisena": 75.0,
+            "biscoito recheado chocolate": 70.0, "bolo de milho sem cobertura": 50.0,
+            "bolo de chocolate sem cobertura": 55.0, "cereal matinal milho": 85.0,
+            "cereal matinal aveia": 70.0, "farinha de mandioca torrada": 85.0,
+            "farinha de trigo branca": 75.0, "farinha de trigo integral": 68.0,
+            "feijão carioca cozido": 14.0, "feijão carioca cru": 63.0, "feijão preto cozido": 14.0,
+            "feijão preto cru": 63.0, "granola": 60.0, "lentilha cozida": 12.0,
+            "lentilha crua": 62.0, "macarrão cozido": 30.0, "macarrão cru": 70.0,
+            "pão francês": 50.0, "pão de forma branco": 48.0, "pão de forma integral": 40.0,
+            "pão de queijo": 35.0, "pipoca com sal": 60.0, "tapioca": 85.0,
+            "salgadinho de milho": 60.0, "batata frita tipo fast food": 40.0,
+            "pizza de queijo": 30.0, "coxinha de frango": 34.5, "pastel de carne": 25.0,
+            "pão de batata": 35.0, "pão de mel": 60.0, "sorvete de creme": 20.0,
+            "sorvete de chocolate": 25.0, "chocolate ao leite": 60.0,
+            "chocolate meio amargo": 50.0, "doce de leite": 55.0, "pudim de leite": 25.0,
+            "gelatina em pó sabor morango": 80.0, "mel": 82.0, "açúcar refinado": 100.0,
+            "açúcar mascavo": 97.0, "melado": 75.0, "bala de goma": 80.0, "pirulito": 95.0,
+            "bombom chocolate": 60.0, "leite condensado": 57.0, "leite de coco": 6.0,
+            "creme de leite": 4.5, "iogurte natural": 1.9, "iogurte desnatado": 5.8,
+            "queijo mussarela": 3.0, "queijo prato": 1.9, "queijo minas frescal": 3.2,
+            "queijo parmesão": 1.7, "ovos galinha cozido": 1.0, "ovos galinha frito": 2.0,
+            "ovos galinha cru": 1.0, "óleo de soja": 0.0, "azeite de oliva": 0.0,
+            "manteiga": 0.0, "margarina": 0.0, "sal": 0.0, "pimenta em pó": 60.0,
+            "catchup": 25.0, "maionese": 2.0, "mostarda": 5.0,
+            "molho de tomate": 10.0, "molho shoyu": 5.0,
+            "pintado assado": 0.0, "pintado cru": 0.0,
+            "pintado grelhado": 0.0, "porquinho cru": 0.0,
+            "salmão filé com pele fresco grelhado": 0.0, "salmão sem pele fresco cru": 0.0,
+            "salmão sem pele fresco grelhado": 0.0, "sardinha assada": 0.0,
+            "sardinha conserva em óleo": 0.0, "sardinha frita": 0.0,
+            "sardinha inteira crua": 0.0, "tucunaré filé congelado cru": 0.0,
+            "apresuntado": 2.9, "caldo de carne tablete": 15.1,
+            "caldo de galinha tablete": 10.6,
+            "carne bovina acém moído cozido": 0.0,
+            "carne bovina acém moído cru": 0.0,
+            "carne bovina acém sem gordura cozido": 0.0,
+            "carne bovina acém sem gordura cru": 0.0,
+            "carne bovina almôndegas cruas": 9.8,
+            "carne bovina almôndegas fritas": 14.3,
+            "carne bovina bucho cozido": 0.0,
+            "carne bovina bucho cru": 0.0,
+            "carne bovina capa de contra-filé com gordura crua": 0.0,
+            "carne bovina capa de contra-filé com gordura grelhada": 0.0,
+            "carne bovina capa de contra-filé sem gordura crua": 0.0,
+            "carne bovina capa de contra-filé sem gordura grelhada": 0.0,
+            "carne bovina charque cozido": 0.0,
+            "carne bovina charque cru": 0.0,
+            "carne bovina contra-filé à milanesa": 12.2,
+            "carne bovina contra-filé de costela cru": 0.0,
+            "carne bovina contra-filé de costela grelhado": 0.0,
+            "carne bovina contra-filé com gordura cru": 0.0,
+            "carne bovina contra-filé com gordura grelhado": 0.0,
+            "carne bovina contra-filé sem gordura cru": 0.0,
+            "carne bovina contra-filé sem gordura grelhado": 0.0,
+            "carne bovina costela assada": 0.0,
+            "carne bovina costela crua": 0.0,
+            "carne bovina coxão duro sem gordura cozido": 0.0,
+            "carne bovina coxão duro sem gordura cru": 0.0,
+            "carne bovina coxão mole sem gordura cozido": 0.0,
+            "carne bovina coxão mole sem gordura cru": 0.0,
+            "carne bovina cupim assado": 0.0,
+            "carne bovina cupim cru": 0.0,
+            "carne bovina fígado cru": 1.1,
+            "carne bovina fígado grelhado": 4.2,
+            "carne bovina filé mingnon sem gordura cru": 0.0,
+            "carne bovina filé mingnon sem gordura grelhado": 0.0,
+            "carne bovina flanco sem gordura cozido": 0.0,
+            "carne bovina flanco sem gordura cru": 0.0,
+            "carne bovina fraldinha com gordura cozida": 0.0,
+            "carne bovina fraldinha com gordura crua": 0.0,
+            "carne bovina lagarto cozido": 0.0,
+            "carne bovina lagarto cru": 0.0,
+            "carne bovina língua cozida": 0.0,
+            "carne bovina língua crua": 0.0,
+            "carne bovina maminha crua": 0.0,
+            "carne bovina maminha grelhada": 0.0,
+            "carne bovina miolo de alcatra sem gordura cru": 0.0,
+            "carne bovina miolo de alcatra sem gordura grelhado": 0.0,
+            "carne bovina músculo sem gordura cozido": 0.0,
+            "carne bovina músculo sem gordura cru": 0.0,
+            "carne bovina paleta com gordura crua": 0.0,
+            "carne bovina paleta sem gordura cozida": 0.0,
+            "carne bovina paleta sem gordura crua": 0.0,
+            "carne bovina patinho sem gordura cru": 0.0,
+            "carne bovina patinho sem gordura grelhado": 0.0,
+            "carne bovina peito sem gordura cozido": 0.0,
+            "carne bovina peito sem gordura cru": 0.0,
+            "carne bovina picanha com gordura crua": 0.0,
+            "carne bovina picanha com gordura grelhada": 0.0,
+            "carne bovina picanha sem gordura crua": 0.0,
+            "carne bovina picanha sem gordura grelhada": 0.0,
+            "carne bovina seca cozida": 0.0,
+            "carne bovina seca crua": 0.0,
+            "coxinha de frango frita": 34.5,
+            "croquete de carne cru": 13.9,
+            "croquete de carne frito": 18.1,
+            "empada de frango pré-cozida assada": 47.5,
+            "empada de frango pré-cozida": 35.5,
+            "frango asa com pele crua": 0.0,
+            "frango caipira inteiro com pele cozido": 0.0,
+            "frango caipira inteiro sem pele cozido": 0.0,
+            "frango coração cru": 0.0,
+            "frango coração grelhado": 0.6,
+            "frango coxa com pele assada": 0.1,
+            "frango coxa com pele crua": 0.0,
+            "frango coxa sem pele cozida": 0.0,
+            "frango coxa sem pele crua": 0.0,
+            "frango fígado cru": 0.0,
+            "frango filé à milanesa": 7.5,
+            "frango inteiro com pele cru": 0.0,
+            "frango inteiro sem pele assado": 0.0,
+            "frango inteiro sem pele cozido": 0.0,
+            "frango inteiro sem pele cru": 0.0,
+            "frango peito com pele assado": 0.0,
+            "frango peito com pele cru": 0.0,
+            "frango peito sem pele cozido": 0.0,
+            "frango peito sem pele cru": 0.0,
+            "frango peito sem pele grelhado": 0.0,
+            "frango sobrecoxa com pele assada": 0.0,
+            "frango sobrecoxa com pele crua": 0.0,
+            "frango sobrecoxa sem pele assada": 0.0,
+            "frango sobrecoxa sem pele crua": 0.0,
+            "hambúrguer bovino cru": 4.2,
+            "hambúrguer bovino frito": 6.3,
+            "hambúrguer bovino grelhado": 11.3,
+            "linguiça frango crua": 0.0,
+            "linguiça frango frita": 0.0,
+            "linguiça frango grelhada": 0.0,
+            "linguiça porco crua": 0.0,
+            "linguiça porco frita": 0.0,
+            "linguiça porco grelhada": 0.0,
+            "mortadela": 5.8,
+            "peru congelado assado": 0.0,
+            "peru congelado cru": 0.0,
+            "porco bisteca crua": 0.0,
+            "porco bisteca frita": 0.0,
+            "porco bisteca grelhada": 0.0,
+            "porco costela assada": 0.0,
+            "porco costela crua": 0.0,
+            "porco lombo assado": 0.0,
+            "porco lombo cru": 0.0,
+            "porco orelha salgada crua": 0.0,
+            "porco pernil assado": 0.0,
+            "porco pernil cru": 0.0,
+            "porco rabo salgado cru": 0.0,
+            "presunto com capa de gordura": 1.4,
+            "presunto sem capa de gordura": 2.1,
+            "quibe assado": 12.9,
+            "quibe cru": 10.8,
+            "quibe frito": 12.3,
+            "salame": 2.9,
+            "toucinho cru": 0.0,
+            "toucinho frito": 0.0,
+            "bebida láctea pêssego": 7.6,
+            "creme de leite": 4.5,
+            "iogurte natural": 1.9,
+            "iogurte natural desnatado": 5.8,
+            "iogurte sabor abacaxi": 6.0,
+            "iogurte sabor morango": 9.7,
+            "iogurte sabor pêssego": 9.4,
+            "leite condensado": 57.0,
+            "leite de coco": 6.0,
+            "creme de leite": 4.5,
+            "iogurte natural": 1.9,
+            "iogurte desnatado": 5.8,
+            "queijo mussarela": 3.0,
+            "queijo prato": 1.9,
+            "queijo minas frescal": 3.2,
+            "queijo minas meia cura": 3.6,
+            "queijo mozarela": 3.0,
+            "queijo parmesão": 1.7,
+            "queijo pasteurizado": 5.7,
+            "queijo petit suisse morango": 18.5,
+            "queijo prato": 1.9,
+            "queijo requeijão cremoso": 2.4,
+            "queijo ricota": 3.8,
+            "café infusão 10%": 1.5,
+            "cana aguardente": 0.0,
+            "caldo de cana": 18.2,
+            "cerveja pilsen": 3.3,
+            "chá erva-doce infusão 5%": 0.4,
+            "chá mate infusão 5%": 0.6,
+            "chá preto infusão 5%": 0.6,
+            "água de coco": 5.3,
+            "refrigerante tônica": 8.0,
+            "refrigerante coca cola": 8.7
+        };
+
+        // Dados da tabela de conversão (traduzido do Python)
+        const conversionTableData = [
+            {"MEDIDA CASEIRA": "uma xícara de chá", "CONVERSÃO (EM GRAMAS)": "160 g"},
+            {"MEDIDA CASEIRA": "uma xícara de café", "CONVERSÃO (EM GRAMAS)": "70 g"},
+            {"MEDIDA CASEIRA": "uma concha", "CONVERSÃO (EM GRAMAS)": "75 g"},
+            {"MEDIDA CASEIRA": "uma colher de sopa", "CONVERSÃO (EM GRAMAS)": "15 g"},
+            {"MEDIDA CASEIRA": "uma colher de chá", "CONVERSÃO (EM GRAMAS)": "5 g"},
+            {"MEDIDA CASEIRA": "uma colher de sobremesa", "CONVERSÃO (EM GRAMAS)": "8,5 g"},
+            {"MEDIDA CASEIRA": "um copo americano", "CONVERSÃO (EM GRAMAS)": "175 g"},
+        ];
+
+        // Conteúdo das dicas de alimentação (traduzido do Python)
+        const foodTipsContent = {
+            "Café da Manhã": `
+                - Panqueca de banana com aveia
+                - Ovos mexidos
+                - Pães integrais
+                - Biscoitos integrais
+                - Café ou chá com adoçante
+            `,
+            "Refeições Principais": `
+                - Carnes: Priorize opções assadas ou cozidas. O consumo excessivo de gorduras e frituras também pode impactar os níveis de glicose.
+                - Saladas: Podem ser consumidas à vontade, desde que não sejam temperadas com molhos industrializados ou aditivos de açúcar.
+                - Legumes: Variados e frescos.
+                - Grãos Integrais: Arroz integral, macarrão integral, aveia, quinoa.
+                - Leguminosas: Abóbora, grão-de-bico, feijão, lentilha, batata (com moderação, devido ao amido).
+            `,
+            "Lanches": `
+                - Iogurte: Iogurte natural e grego são as melhores opções devido ao menor índice glicêmico.
+                - Castanhas e Nozes: Quando consumidas com moderação, oferecem diversos benefícios à saúde.
+                - Barra de cereais (verificar teor de açúcar).
+            `,
+            "Sobremesas": `
+                - Frutas: Podem ser consumidas in natura, com canela e/ou adoçante.
+                - Balas e chicletes sem açúcar.
+                - Gelatinas diet/zero açúcar.
+            `
+        };
+
+
+        // Referências aos elementos do DOM para o Modal de Insulina
+        const insulinCalcModal = document.getElementById('insulinCalcModal');
+        const closeModalBtn = document.getElementById('closeModalBtn');
+        const addFoodBtn = document.getElementById('addFoodBtn');
+        const calculateInsulinBtn = document.getElementById('calculateInsulinBtn');
+        const foodListDiv = document.getElementById('foodList');
+        const noFoodMessage = document.getElementById('noFoodMessage');
+        const errorMessageDiv = document.getElementById('errorMessage');
+        const resultsDiv = document.getElementById('results');
+        const totalChoResult = document.getElementById('totalChoResult');
+        const glicemiaMedidaResult = document.getElementById('glicemiaMedidaResult');
+        const insulinaAplicarResult = document.getElementById('insulinaAplicarResult');
+
+        const foodNameInput = document.getElementById('foodName');
+        const foodSuggestionsDatalist = document.getElementById('foodSuggestions');
+
+        let consumedFoods = []; // Armazena os alimentos e quantidades adicionados
+
+        // Referências aos elementos do DOM para o Modal de Glicemia Baixa
+        const lowGlucoseModal = document.getElementById('lowGlucoseModal');
+        const closeLowGlucoseModalBtn = document.getElementById('closeLowGlucoseModalBtn');
+
+        // Referências aos elementos do DOM para o Modal de Glicemia Alta
+        const highGlucoseModal = document.getElementById('highGlucoseModal');
+        const closeHighGlucoseModalBtn = document.getElementById('closeHighGlucoseModalBtn');
+
+        // Referências aos elementos do DOM para o Modal da Tabela de Conversão
+        const conversionTableModal = document.getElementById('conversionTableModal');
+        const closeConversionTableModalBtn = document.getElementById('closeConversionTableModalBtn');
+        const conversionTableBody = document.getElementById('conversionTableBody');
+
+        // Referências aos elementos do DOM para o Modal de Dicas para Comer Bem
+        const eatWellTipsModal = document.getElementById('eatWellTipsModal');
+        const closeEatWellTipsModalBtn = document.getElementById('closeEatWellTipsModalBtn');
+        const btnBreakfast = document.getElementById('btnBreakfast');
+        const btnMainMeals = document.getElementById('btnMainMeals');
+        const btnSnacks = document.getElementById('btnSnacks');
+        const btnDesserts = document.getElementById('btnDesserts');
+        const foodCategoryContent = document.getElementById('foodCategoryContent');
+        const foodCategoryTitle = document.getElementById('foodCategoryTitle');
+        const foodCategoryText = document.getElementById('foodCategoryText');
+
+
+        // Função para mostrar o modal de Cálculo de Insulina
+        function showInsulinCalcModal() {
+            insulinCalcModal.classList.add('show');
+            // Limpa os campos e resultados ao abrir o modal
+            document.getElementById('choCorrecao').value = '';
+            document.getElementById('glicemiaCorrecao').value = '';
+            document.getElementById('glicemiaMax').value = '';
+            document.getElementById('glicemiaMedida').value = '';
+            foodNameInput.value = '';
+            document.getElementById('foodQuantity').value = '';
+            foodListDiv.innerHTML = '<p class="text-sm text-gray-500" id="noFoodMessage">Nenhum alimento adicionado ainda.</p>';
+            noFoodMessage.style.display = 'block';
+            errorMessageDiv.textContent = '';
+            errorMessageDiv.classList.add('hidden');
+            resultsDiv.classList.add('hidden');
+            consumedFoods = []; // Reseta a lista de alimentos
+            updateFoodSuggestions(''); // Limpa as sugestões ao abrir o modal
+        }
+
+        // Função para esconder o modal de Cálculo de Insulina
+        function hideInsulinCalcModal() {
+            insulinCalcModal.classList.remove('show');
+        }
+
+        // Função para mostrar o modal de Glicemia Baixa
+        function showLowGlucoseModal() {
+            lowGlucoseModal.classList.add('show');
+        }
+
+        // Função para esconder o modal de Glicemia Baixa
+        function hideLowGlucoseModal() {
+            lowGlucoseModal.classList.remove('show');
+        }
+
+        // Função para mostrar o modal de Glicemia Alta
+        function showHighGlucoseModal() {
+            highGlucoseModal.classList.add('show');
+        }
+
+        // Função para esconder o modal de Glicemia Alta
+        function hideHighGlucoseModal() {
+            highGlucoseModal.classList.remove('show');
+        }
+
+        // Função para mostrar o modal da Tabela de Conversão
+        function showConversionTableModal() {
+            conversionTableModal.classList.add('show');
+            renderConversionTable(); // Renderiza a tabela ao abrir o modal
+        }
+
+        // Função para esconder o modal da Tabela de Conversão
+        function hideConversionTableModal() {
+            conversionTableModal.classList.remove('show');
+        }
+
+        // Função para mostrar o modal de Dicas para Comer Bem
+        function showEatWellTipsModal() {
+            eatWellTipsModal.classList.add('show');
+            // Limpa o conteúdo da categoria ao abrir o modal
+            foodCategoryContent.classList.add('hidden');
+            foodCategoryTitle.textContent = '';
+            foodCategoryText.textContent = '';
+        }
+
+        // Função para esconder o modal de Dicas para Comer Bem
+        function hideEatWellTipsModal() {
+            eatWellTipsModal.classList.remove('show');
+        }
+
+
+        // Função para renderizar a tabela de conversão
+        function renderConversionTable() {
+            conversionTableBody.innerHTML = ''; // Limpa o corpo da tabela
+            conversionTableData.forEach(row => {
+                const tr = document.createElement('tr');
+                const tdMedida = document.createElement('td');
+                tdMedida.textContent = row["MEDIDA CASEIRA"];
+                const tdConversao = document.createElement('td');
+                tdConversao.textContent = row["CONVERSÃO (EM GRAMAS)"];
+                tr.appendChild(tdMedida);
+                tr.appendChild(tdConversao);
+                conversionTableBody.appendChild(tr);
+            });
+        }
+
+        // Função para atualizar as sugestões do datalist
+        function updateFoodSuggestions(inputValue) {
+            foodSuggestionsDatalist.innerHTML = ''; // Limpa as sugestões anteriores
+            if (inputValue.length < 2) { // Começa a sugerir a partir de 2 caracteres
+                return;
+            }
+
+            const filteredFoods = Object.keys(cho_alimento).filter(food =>
+                food.includes(inputValue.toLowerCase())
+            );
+
+            filteredFoods.forEach(food => {
+                const option = document.createElement('option');
+                option.value = food;
+                foodSuggestionsDatalist.appendChild(option);
+            });
+        }
+
+        // Event listener para o input de nome do alimento para gerar sugestões
+        foodNameInput.addEventListener('input', (event) => {
+            updateFoodSuggestions(event.target.value);
+        });
+
+        // Event listener para o botão de adicionar alimento
+        addFoodBtn.addEventListener('click', () => {
+            const foodQuantityInput = document.getElementById('foodQuantity');
+
+            const foodName = foodNameInput.value.trim().toLowerCase();
+            const quantity = parseFloat(foodQuantityInput.value);
+
+            errorMessageDiv.textContent = '';
+            errorMessageDiv.classList.add('hidden');
+
+            if (!foodName || isNaN(quantity) || quantity <= 0) {
+                errorMessageDiv.textContent = 'Por favor, insira um nome de alimento e uma quantidade válida (número maior que zero).';
+                errorMessageDiv.classList.remove('hidden');
+                return;
+            }
+
+            // Verifica se o alimento selecionado (ou digitado) existe no dicionário
+            if (!cho_alimento.hasOwnProperty(foodName)) {
+                errorMessageDiv.textContent = `Alimento "${foodNameInput.value}" não encontrado na lista. Por favor, selecione uma sugestão ou verifique a digitação.`;
+                errorMessageDiv.classList.remove('hidden');
+                return;
+            }
+
+            consumedFoods.push({ name: foodNameInput.value, quantity: quantity, cho: cho_alimento[foodName] });
+            renderFoodList();
+
+            foodNameInput.value = '';
+            foodQuantityInput.value = '';
+            foodNameInput.focus(); // Foca no campo de nome para adicionar mais
+            updateFoodSuggestions(''); // Limpa as sugestões após adicionar
+        });
+
+        // Renderiza a lista de alimentos adicionados
+        function renderFoodList() {
+            foodListDiv.innerHTML = '';
+            if (consumedFoods.length === 0) {
+                noFoodMessage.style.display = 'block';
+                foodListDiv.appendChild(noFoodMessage);
+            } else {
+                noFoodMessage.style.display = 'none';
+                consumedFoods.forEach((food, index) => {
+                    const foodItem = document.createElement('div');
+                    foodItem.classList.add('flex', 'justify-between', 'items-center', 'py-1', 'border-b', 'border-gray-100');
+                    foodItem.innerHTML = `
+                        <span class="text-sm text-dark-brown">${food.name} (${food.quantity}g)</span>
+                        <button class="text-red-500 hover:text-red-700 text-sm" data-index="${index}">Remover</button>
+                    `;
+                    foodListDiv.appendChild(foodItem);
+                });
+            }
+        }
+
+        // Delegação de evento para remover item da lista
+        foodListDiv.addEventListener('click', (event) => {
+            if (event.target.tagName === 'BUTTON' && event.target.textContent === 'Remover') {
+                const indexToRemove = parseInt(event.target.dataset.index);
+                consumedFoods.splice(indexToRemove, 1);
+                renderFoodList();
+            }
+        });
+
+        // Função para calcular o total de CHO (traduzido do Python)
+        function calculateTotalCho() {
+            let total_cho = 0;
+            consumedFoods.forEach(food => {
+                total_cho += (food.cho / 100) * food.quantity;
+            });
+            return total_cho;
+        }
+
+        // Função para calcular a insulina (traduzido do Python)
+        function calculateInsulin(glicemia_medida, total_cho, cho_correcao, glicemia_correcao, glicemia_max) {
+            let insulina_cho = 0;
+            if (total_cho >= cho_correcao) {
+                insulina_cho = total_cho / cho_correcao;
+                const decimal_part = insulina_cho - Math.floor(insulina_cho);
+                if (decimal_part >= 0.5) {
+                    insulina_cho = Math.ceil(insulina_cho);
+                } else {
+                    insulina_cho = Math.floor(insulina_cho);
+                }
+            }
+
+            let insulina_glicemia = 0;
+            if (glicemia_medida > glicemia_max) {
+                insulina_glicemia = (glicemia_medida - glicemia_max) / glicemia_correcao;
+                if (!Number.isInteger(insulina_glicemia)) {
+                    insulina_glicemia = Math.ceil(insulina_glicemia);
+                }
+            }
+
+            return insulina_cho + insulina_glicemia;
+        }
+
+        // Event listener para o botão de calcular insulina
+        calculateInsulinBtn.addEventListener('click', () => {
+            const choCorrecao = parseFloat(document.getElementById('choCorrecao').value);
+            const glicemiaCorrecao = parseFloat(document.getElementById('glicemiaCorrecao').value);
+            const glicemiaMax = parseFloat(document.getElementById('glicemiaMax').value);
+            const glicemiaMedida = parseFloat(document.getElementById('glicemiaMedida').value);
+
+            errorMessageDiv.textContent = '';
+            errorMessageDiv.classList.add('hidden');
+
+            // Validação dos inputs
+            if (isNaN(choCorrecao) || choCorrecao <= 0 ||
+                isNaN(glicemiaCorrecao) || glicemiaCorrecao <= 0 ||
+                isNaN(glicemiaMax) || isNaN(glicemiaMedida)) {
+                errorMessageDiv.textContent = 'Por favor, preencha todos os campos numéricos com valores válidos e maiores que zero para as correções.';
+                errorMessageDiv.classList.remove('hidden');
+                resultsDiv.classList.add('hidden');
+                return;
+            }
+
+            const totalCho = calculateTotalCho();
+            const insulinaAplicar = calculateInsulin(glicemiaMedida, totalCho, choCorrecao, glicemiaCorrecao, glicemiaMax);
+
+            // Exibir resultados
+            totalChoResult.textContent = `Total de CHO ingerido: ${totalCho.toFixed(2)} g`;
+            glicemiaMedidaResult.textContent = `Glicemia medida: ${glicemiaMedida.toFixed(2)} mg/dL`;
+            insulinaAplicarResult.textContent = `Quantidade de insulina a aplicar: ${insulinaAplicar.toFixed(2)} unidades`;
+            resultsDiv.classList.remove('hidden');
+        });
+
+        // Funções para exibir o conteúdo das categorias de alimentos
+        function displayFoodCategory(categoryName) {
+            foodCategoryTitle.textContent = categoryName;
+            foodCategoryText.innerHTML = foodTipsContent[categoryName].trim().split('\n').map(line => {
+                const trimmedLine = line.trim();
+                if (trimmedLine.startsWith('- ')) {
+                    return `<li>${trimmedLine.substring(2)}</li>`;
+                }
+                return `<p>${trimmedLine}</p>`;
+            }).join('');
+            foodCategoryContent.classList.remove('hidden');
+        }
+
+        // Event listeners para os botões de categoria de alimentos
+        btnBreakfast.addEventListener('click', () => displayFoodCategory('Café da Manhã'));
+        btnMainMeals.addEventListener('click', () => displayFoodCategory('Refeições Principais'));
+        btnSnacks.addEventListener('click', () => displayFoodCategory('Lanches'));
+        btnDesserts.addEventListener('click', () => displayFoodCategory('Sobremesas'));
+
+
+        // Event listeners para os cards
+        function handleCardClick(cardName) {
+            if (cardName === 'Cálculo de Insulina') {
+                showInsulinCalcModal();
+            } else if (cardName === 'Glicemia baixa') {
+                showLowGlucoseModal();
+            } else if (cardName === 'Glicemia alta') {
+                showHighGlucoseModal();
+            } else if (cardName === 'Tabela de Medidas') {
+                showConversionTableModal();
+            } else if (cardName === 'Dicas para comer bem') {
+                showEatWellTipsModal();
+            }
+            else {
+                // Para outros cards, você pode adicionar outras lógicas aqui
+                console.log(`Card "${cardName}" clicado!`);
+            }
+        }
+
+        // Event listener para fechar o modal de Cálculo de Insulina
+        closeModalBtn.addEventListener('click', hideInsulinCalcModal);
+
+        // Event listener para fechar o modal de Glicemia Baixa
+        closeLowGlucoseModalBtn.addEventListener('click', hideLowGlucoseModal);
+
+        // Event listener para fechar o modal de Glicemia Alta
+        closeHighGlucoseModalBtn.addEventListener('click', hideHighGlucoseModal);
+
+        // Event listener para fechar o modal da Tabela de Conversão
+        closeConversionTableModalBtn.addEventListener('click', hideConversionTableModal);
+
+        // Event listener para fechar o modal de Dicas para Comer Bem
+        closeEatWellTipsModalBtn.addEventListener('click', hideEatWellTipsModal);
+
+
+        // Fechar modal de Cálculo de Insulina clicando fora (opcional, mas boa prática)
+        insulinCalcModal.addEventListener('click', (event) => {
+            if (event.target === insulinCalcModal) {
+                hideInsulinCalcModal();
+            }
+        });
+
+        // Fechar modal de Glicemia Baixa clicando fora (opcional, mas boa prática)
+        lowGlucoseModal.addEventListener('click', (event) => {
+            if (event.target === lowGlucoseModal) {
+                hideLowGlucoseModal();
+            }
+        });
+
+        // Fechar modal de Glicemia Alta clicando fora (opcional, mas boa prática)
+        highGlucoseModal.addEventListener('click', (event) => {
+            if (event.target === highGlucoseModal) {
+                hideHighGlucoseModal();
+            }
+        });
+
+        // Fechar modal da Tabela de Conversão clicando fora (opcional, mas boa prática)
+        conversionTableModal.addEventListener('click', (event) => {
+            if (event.target === conversionTableModal) {
+                hideConversionTableModal();
+            }
+        });
+
+        // Fechar modal de Dicas para Comer Bem clicando fora (opcional, mas boa prática)
+        eatWellTipsModal.addEventListener('click', (event) => {
+            if (event.target === eatWellTipsModal) {
+                hideEatWellTipsModal();
+            }
+        });
+    </script>
+</body>
+</html>
