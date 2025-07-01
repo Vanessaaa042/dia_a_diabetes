@@ -1,4 +1,4 @@
-<!D<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
@@ -10,10 +10,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" xintegrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0V4LLanw2qksYuRlEzO+tcaEPQogQ0KaoGN26/zrn20ImR1DfuLWnOo7aBA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- Carrega a fonte Great Vibes do Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
-    <!-- Carrega a fonte Montserrat do Google Fonts para o conversor de medidas -->
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        /* Estilo personalizado para a fonte Inter (para o corpo, exceto o conversor) */
+        /* Estilo personalizado para a fonte Inter (para o corpo) */
         body {
             font-family: 'Inter', sans-serif;
         }
@@ -60,7 +58,7 @@
         .modal-overlay.show .modal-content {
             transform: translateY(0);
         }
-        /* Estilos para a tabela dentro do modal (manter caso alguma outra tabela seja adicionada) */
+        /* Estilos para a tabela dentro do modal */
         .conversion-table {
             width: 100%;
             border-collapse: collapse;
@@ -75,78 +73,12 @@
             background-color: #f3f4f6; /* gray-100 */
             font-weight: 600;
         }
-        /* Estilos para mensagens de feedback */
-        .feedback-message {
-            margin-top: 1rem;
-            padding: 0.75rem;
-            border-radius: 0.375rem;
-            font-size: 0.875rem;
-            color: #333;
-            background-color: #f0f0f0;
-        }
-        .feedback-message.success {
-            background-color: #d1fae5; /* green-100 */
-            color: #065f46; /* green-800 */
-        }
-        .feedback-message.error {
-            background-color: #fee2e2; /* red-100 */
-            color: #991b1b; /* red-800 */
-        }
-
-        /* Estilos específicos para o Conversor de Medidas */
-        .measurement-converter-content {
-            font-family: 'Montserrat', sans-serif;
-            background-color: #f0f4f8; /* Soft background color for the converter part */
-            padding: 2rem;
-            border-radius: 1rem;
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.06); /* Subtle inner shadow */
-        }
-        .measurement-converter-content .input-field {
-            width: 100%;
-            padding: 0.75rem 1rem;
-            border: 1px solid #e2e8f0; /* gray-300 */
-            border-radius: 0.5rem;
-            box-shadow: inset 0 1px 2px rgba(0,0,0,0.05); /* inner shadow */
-            transition: all 0.15s ease-in-out;
-        }
-        .measurement-converter-content .input-field:focus {
-            border-color: #ec4899; /* pink-500 */
-            box-shadow: 0 0 0 3px rgba(236, 72, 153, 0.2); /* ring-pink-500 */
-            outline: none;
-        }
-        .measurement-converter-content button {
-            background-color: #ec4899; /* pink-500 */
-            color: white;
-            padding: 0.75rem 1.5rem;
-            border-radius: 0.5rem;
-            font-weight: 700;
-            transition: all 0.2s ease-in-out;
-        }
-        .measurement-converter-content button:hover {
-            background-color: #db2777; /* pink-600 */
-            transform: translateY(-1px);
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
-        .measurement-converter-content .result-box {
-            background-color: #fce7f3; /* pink-50 */
-            border-left: 4px solid #f9a8d4; /* pink-300 */
-            color: #be185d; /* pink-800 */
-            padding: 1rem;
-            border-radius: 0.5rem;
-        }
-        .measurement-converter-content .error-box {
-            background-color: #fee2e2; /* red-50 */
-            border-left: 4px solid #f87171; /* red-300 */
-            color: #b91c1c; /* red-800 */
-            padding: 1rem;
-            border-radius: 0.5rem;
-        }
     </style>
 </head>
 <body class="bg-pink-200 min-h-screen flex flex-col items-center justify-between p-4">
 
     <!-- Cabeçalho -->
-    <header class="w-full text-center py-4 md:py-8 relative">
+    <header class="w-full text-center py-4 md:py-8">
         <h1 class="text-3xl md:text-4xl font-bold text-gray-800 header-title">
             <i class="fas fa-heartbeat text-dark-brown mr-3"></i>Dia a Diabetes
         </h1>
@@ -172,10 +104,10 @@
             <p class="text-md text-dark-brown mt-2">correção de glicemia / carboidratos</p>
         </div>
 
-        <!-- Card 4: Conversor de Medidas (atualizado) -->
-        <div id="card4" class="bg-white rounded-xl shadow-lg p-6 w-full max-w-sm flex flex-col items-center justify-center text-center cursor-pointer transform transition-transform duration-200 hover:scale-105" onclick="handleCardClick('Conversor de Medidas')">
-            <p class="text-lg font-semibold text-dark-brown">Conversor de medidas</p>
-            <p class="text-md text-dark-brown mt-2">(converter para gramas)</p>
+        <!-- Card 4: Tabela de Medidas -->
+        <div id="card4" class="bg-white rounded-xl shadow-lg p-6 w-full max-w-sm flex flex-col items-center justify-center text-center cursor-pointer transform transition-transform duration-200 hover:scale-105" onclick="handleCardClick('Tabela de Medidas')">
+            <p class="text-lg font-semibold text-dark-brown">Tabela de medidas</p>
+            <p class="text-md text-dark-brown mt-2">(conversão em gramas)</p>
         </div>
 
         <!-- Novo Card 5: Dicas para comer bem -->
@@ -239,11 +171,6 @@
                     <p id="totalChoResult"></p>
                     <p id="glicemiaMedidaResult"></p>
                     <p id="insulinaAplicarResult" class="text-xl font-bold"></p>
-                    <!-- Mensagens contextuais -->
-                    <p id="highGlucoseMessage" class="mt-2 text-sm text-red-700 hidden"></p>
-                    <p id="lowGlucoseMessage" class="mt-2 text-sm text-red-700 hidden"></p>
-                    <p id="highChoMessage" class="mt-2 text-sm text-red-700 hidden"></p>
-                    <p id="disclaimerMessage" class="mt-4 text-xs text-gray-600 hidden">É recomendado que os resultados das medições acima sejam informados na consulta com o(a) endocrinologista.</p>
                 </div>
             </div>
         </div>
@@ -346,53 +273,28 @@
         </div>
     </div>
 
-    <!-- Modal para Conversor de Medidas (Antiga Tabela de Medidas) -->
+    <!-- Modal para Tabela de Medidas -->
     <div id="conversionTableModal" class="modal-overlay">
         <div class="modal-content">
-            <!-- Conteúdo do Conversor de Medidas -->
-            <div class="measurement-converter-content bg-gray-100 flex flex-col items-center justify-center p-4">
-                <div class="bg-white p-8 rounded-2xl shadow-xl max-w-lg w-full transform transition-all hover:scale-105 duration-300">
-                    <h1 class="text-3xl font-extrabold text-center text-amber-800 mb-6">Conversor de Medidas para Contagem de Carboidratos</h1>
-                    
-                    <p class="text-gray-600 text-center mb-8 text-sm">
-                        Converta medidas comuns de volume para gramas, um passo essencial para a contagem precisa de carboidratos em suas refeições.
-                    </p>
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                        <div>
-                            <label for="amount" class="block text-sm font-medium text-gray-700 mb-2">Quantidade:</label>
-                            <input type="number" id="amount" placeholder="Ex: 2.5" class="input-field" step="0.01">
-                        </div>
-                        <div>
-                            <label for="unit" class="block text-sm font-medium text-gray-700 mb-2">Unidade:</label>
-                            <select id="unit" class="input-field bg-white">
-                                <option value="">Selecione uma unidade</option>
-                                <option value="xícara de chá">Xícara de Chá</option>
-                                <option value="xícara de café">Xícara de Café</option>
-                                <option value="concha">Concha</option>
-                                <option value="colher de sopa">Colher de Sopa</option>
-                                <option value="colher de chá">Colher de Chá</option>
-                                <option value="colher de sobremesa">Colher de Sobremesa</option>
-                                <option value="copo americano">Copo Americano</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <button id="convertButton" class="w-full">
-                        Converter para Gramas
-                    </button>
-
-                    <div id="result" class="result-box mt-8 hidden">
-                        <p class="font-semibold text-lg">Resultado:</p>
-                        <p><span id="resultText" class="text-xl font-bold"></span></p>
-                        <p class="text-sm mt-2">Use este valor em gramas para consultar a tabela nutricional do alimento e calcular os carboidratos.</p>
-                    </div>
-
-                    <div id="errorMessage" class="error-box mt-8 hidden">
-                        <p class="font-semibold text-lg">Erro:</p>
-                        <p id="errorText" class="text-base"></p>
-                    </div>
-                </div>
+            <h2 class="text-2xl font-bold text-dark-brown mb-4 text-center">Tabela de Conversão de Medidas</h2>
+            <div class="text-dark-brown text-base leading-relaxed">
+                <table class="conversion-table">
+                    <thead>
+                        <tr>
+                            <th>MEDIDA CASEIRA</th>
+                            <th>CONVERSÃO (EM GRAMAS)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="conversionTableBody">
+                        <!-- Conteúdo da tabela será inserido aqui pelo JavaScript -->
+                    </tbody>
+                </table>
+                <p class="text-xs text-gray-600 mt-4 text-center">
+                    tabela baseada em valores médios, podendo ter desvios de acordo com o
+                    instrumento utilizado e alimento medido. Portanto, pode apresentar
+                    erros significativos para cálculo, sendo o ideal medir em uma balança
+                    para um resultado mais assertivo.
+                </p>
             </div>
             <div class="flex justify-end mt-6">
                 <button id="closeConversionTableModalBtn" class="bg-gray-300 text-gray-800 px-6 py-3 rounded-md hover:bg-gray-400 transition duration-200">Fechar</button>
@@ -441,8 +343,9 @@
         </div>
     </div>
 
+
     <script>
-        // Dicionário de CHO dos alimentos (completo)
+        // Dicionário de CHO dos alimentos (traduzido do Python)
         const cho_alimento = {
             "refrigerante guaraná": 10.2, "refrigerante de laranja": 10.2, "refrigerante de limão": 9.0,
             "suco de caju concentrado néctar": 11.5, "suco de caju néctar light": 2.7,
@@ -693,341 +596,408 @@
             "refrigerante coca cola": 8.7
         };
 
-        // Conteúdo das dicas para comer bem por categoria 
-        const eatWellTipsContent = {
-            "Café da Manhã": {
-                title: "Café da Manhã",
-                text: `- Panqueca de banana com aveia\n
-                - Ovos mexidos\n- Pães integrais\n
-                - Biscoitos integrais\n
-                - Café ou chá com adoçante`
-            },
-            "Refeições Principais": {
-                title: "Refeições Principais",
-                text:  `- Carnes: Priorize opções assadas ou cozidas. O consumo excessivo de gorduras e frituras também pode impactar os níveis de glicose.\n
-                - Saladas: Podem ser consumidas à vontade, desde que não sejam temperadas com molhos industrializados ou aditivos de açúcar.\n
-                - Legumes: Variados e frescos.\n- Grãos Integrais: Arroz integral, macarrão integral, aveia, quinoa.\n
-                - Leguminosas: Abóbora, grão-de-bico, feijão, lentilha, batata (com moderação, devido ao amido).`
-            },
-            "Lanches": {
-                title: "Lanches",
-                text:  `- Iogurte: Iogurte natural e grego são as melhores opções devido ao menor índice glicêmico.\n
-                - Castanhas e Nozes: Quando consumidas com moderação, oferecem diversos benefícios à saúde.\n
-                - Barra de cereais (verificar teor de açúcar).`
-            },
-            "Sobremesas": {
-                title: "Sobremesas",
-                text:  `- Frutas: Podem ser consumidas in natura, com canela e/ou adoçante.\n
-                - Balas e chicletes sem açúcar.\n
-                - Gelatinas diet/zero açúcar.`
-            }
+        // Dados da tabela de conversão (traduzido do Python)
+        const conversionTableData = [
+            {"MEDIDA CASEIRA": "uma xícara de chá", "CONVERSÃO (EM GRAMAS)": "160 g"},
+            {"MEDIDA CASEIRA": "uma xícara de café", "CONVERSÃO (EM GRAMAS)": "70 g"},
+            {"MEDIDA CASEIRA": "uma concha", "CONVERSÃO (EM GRAMAS)": "75 g"},
+            {"MEDIDA CASEIRA": "uma colher de sopa", "CONVERSÃO (EM GRAMAS)": "15 g"},
+            {"MEDIDA CASEIRA": "uma colher de chá", "CONVERSÃO (EM GRAMAS)": "5 g"},
+            {"MEDIDA CASEIRA": "uma colher de sobremesa", "CONVERSÃO (EM GRAMAS)": "8,5 g"},
+            {"MEDIDA CASEIRA": "um copo americano", "CONVERSÃO (EM GRAMAS)": "175 g"},
+        ];
+
+        // Conteúdo das dicas de alimentação (traduzido do Python)
+        const foodTipsContent = {
+            "Café da Manhã": `
+                - Panqueca de banana com aveia
+                - Ovos mexidos
+                - Pães integrais
+                - Biscoitos integrais
+                - Café ou chá com adoçante
+            `,
+            "Refeições Principais": `
+                - Carnes: Priorize opções assadas ou cozidas. O consumo excessivo de gorduras e frituras também pode impactar os níveis de glicose.
+                - Saladas: Podem ser consumidas à vontade, desde que não sejam temperadas com molhos industrializados ou aditivos de açúcar.
+                - Legumes: Variados e frescos.
+                - Grãos Integrais: Arroz integral, macarrão integral, aveia, quinoa.
+                - Leguminosas: Abóbora, grão-de-bico, feijão, lentilha, batata (com moderação, devido ao amido).
+            `,
+            "Lanches": `
+                - Iogurte: Iogurte natural e grego são as melhores opções devido ao menor índice glicêmico.
+                - Castanhas e Nozes: Quando consumidas com moderação, oferecem diversos benefícios à saúde.
+                - Barra de cereais (verificar teor de açúcar).
+            `,
+            "Sobremesas": `
+                - Frutas: Podem ser consumidas in natura, com canela e/ou adoçante.
+                - Balas e chicletes sem açúcar.
+                - Gelatinas diet/zero açúcar.
+            `
         };
 
 
-        // Funções para manipulação de modais
-        function showModal(modalId) {
-            document.getElementById(modalId).classList.add('show');
-        }
-
-        function hideModal(modalId) {
-            document.getElementById(modalId).classList.remove('show');
-        }
-
-        // --- Lógica Principal dos Cards e Modais ---
+        // Referências aos elementos do DOM para o Modal de Insulina
         const insulinCalcModal = document.getElementById('insulinCalcModal');
-        const lowGlucoseModal = document.getElementById('lowGlucoseModal');
-        const highGlucoseModal = document.getElementById('highGlucoseModal');
-        const conversionTableModal = document.getElementById('conversionTableModal'); // Este é agora o modal do conversor
-        const eatWellTipsModal = document.getElementById('eatWellTipsModal');
-
         const closeModalBtn = document.getElementById('closeModalBtn');
-        const closeLowGlucoseModalBtn = document.getElementById('closeLowGlucoseModalBtn');
-        const closeHighGlucoseModalBtn = document.getElementById('closeHighGlucoseModalBtn');
-        const closeConversionTableModalBtn = document.getElementById('closeConversionTableModalBtn'); // Botão de fechar do conversor
-        const closeEatWellTipsModalBtn = document.getElementById('closeEatWellTipsModalBtn');
-
-        const foodNameInput = document.getElementById('foodName');
-        const foodQuantityInput = document.getElementById('foodQuantity');
         const addFoodBtn = document.getElementById('addFoodBtn');
+        const calculateInsulinBtn = document.getElementById('calculateInsulinBtn');
         const foodListDiv = document.getElementById('foodList');
         const noFoodMessage = document.getElementById('noFoodMessage');
         const errorMessageDiv = document.getElementById('errorMessage');
-        const calculateInsulinBtn = document.getElementById('calculateInsulinBtn');
         const resultsDiv = document.getElementById('results');
         const totalChoResult = document.getElementById('totalChoResult');
         const glicemiaMedidaResult = document.getElementById('glicemiaMedidaResult');
         const insulinaAplicarResult = document.getElementById('insulinaAplicarResult');
-        const highGlucoseMessage = document.getElementById('highGlucoseMessage');
-        const lowGlucoseMessage = document.getElementById('lowGlucoseMessage');
-        const highChoMessage = document.getElementById('highChoMessage');
-        const disclaimerMessage = document.getElementById('disclaimerMessage');
 
-        // Datalist para alimentos
+        const foodNameInput = document.getElementById('foodName');
         const foodSuggestionsDatalist = document.getElementById('foodSuggestions');
-        for (const food of Object.keys(cho_alimento)) {
-            const option = document.createElement('option');
-            option.value = food;
-            foodSuggestionsDatalist.appendChild(option);
-        }
 
-        let addedFoods = []; // Armazena alimentos adicionados para o cálculo de insulina
+        let consumedFoods = []; // Armazena os alimentos e quantidades adicionados
 
-        function handleCardClick(cardType) {
-            switch (cardType) {
-                case 'Cálculo de Insulina':
-                    showModal('insulinCalcModal');
-                    break;
-                case 'Glicemia baixa':
-                    showModal('lowGlucoseModal');
-                    break;
-                case 'Glicemia alta':
-                    showModal('highGlucoseModal');
-                    break;
-                case 'Conversor de Medidas': // Atualizado para o novo card
-                    showModal('conversionTableModal');
-                    break;
-                case 'Dicas para comer bem':
-                    showModal('eatWellTipsModal');
-                    break;
-                default:
-                    console.log(`Card clicado: ${cardType}`);
-            }
-        }
+        // Referências aos elementos do DOM para o Modal de Glicemia Baixa
+        const lowGlucoseModal = document.getElementById('lowGlucoseModal');
+        const closeLowGlucoseModalBtn = document.getElementById('closeLowGlucoseModalBtn');
 
-        // Fecha modais
-        closeModalBtn.addEventListener('click', () => {
-            hideModal('insulinCalcModal');
-            resetInsulinCalculator(); // Limpa os campos da calculadora ao fechar
-        });
-        closeLowGlucoseModalBtn.addEventListener('click', () => hideModal('lowGlucoseModal'));
-        closeHighGlucoseModalBtn.addEventListener('click', () => hideModal('highGlucoseModal'));
-        // Botão de fechar do novo conversor de medidas
-        closeConversionTableModalBtn.addEventListener('click', () => {
-            hideModal('conversionTableModal');
-            // Opcional: Limpar campos do conversor ao fechar
-            document.getElementById('amount').value = '';
-            document.getElementById('unit').value = '';
-            document.getElementById('result').classList.add('hidden');
-            document.getElementById('errorMessage').classList.add('hidden');
-        });
-        closeEatWellTipsModalBtn.addEventListener('click', () => {
-            hideModal('eatWellTipsModal');
-            document.getElementById('foodCategoryContent').classList.add('hidden'); // Esconde o conteúdo das dicas ao fechar
-        });
+        // Referências aos elementos do DOM para o Modal de Glicemia Alta
+        const highGlucoseModal = document.getElementById('highGlucoseModal');
+        const closeHighGlucoseModalBtn = document.getElementById('closeHighGlucoseModalBtn');
 
-        // Resetar calculadora de insulina
-        function resetInsulinCalculator() {
+        // Referências aos elementos do DOM para o Modal da Tabela de Conversão
+        const conversionTableModal = document.getElementById('conversionTableModal');
+        const closeConversionTableModalBtn = document.getElementById('closeConversionTableModalBtn');
+        const conversionTableBody = document.getElementById('conversionTableBody');
+
+        // Referências aos elementos do DOM para o Modal de Dicas para Comer Bem
+        const eatWellTipsModal = document.getElementById('eatWellTipsModal');
+        const closeEatWellTipsModalBtn = document.getElementById('closeEatWellTipsModalBtn');
+        const btnBreakfast = document.getElementById('btnBreakfast');
+        const btnMainMeals = document.getElementById('btnMainMeals');
+        const btnSnacks = document.getElementById('btnSnacks');
+        const btnDesserts = document.getElementById('btnDesserts');
+        const foodCategoryContent = document.getElementById('foodCategoryContent');
+        const foodCategoryTitle = document.getElementById('foodCategoryTitle');
+        const foodCategoryText = document.getElementById('foodCategoryText');
+
+
+        // Função para mostrar o modal de Cálculo de Insulina
+        function showInsulinCalcModal() {
+            insulinCalcModal.classList.add('show');
+            // Limpa os campos e resultados ao abrir o modal
             document.getElementById('choCorrecao').value = '';
             document.getElementById('glicemiaCorrecao').value = '';
             document.getElementById('glicemiaMax').value = '';
             document.getElementById('glicemiaMedida').value = '';
             foodNameInput.value = '';
-            foodQuantityInput.value = '';
-            addedFoods = [];
-            updateFoodListDisplay();
-            resultsDiv.classList.add('hidden');
+            document.getElementById('foodQuantity').value = '';
+            foodListDiv.innerHTML = '<p class="text-sm text-gray-500" id="noFoodMessage">Nenhum alimento adicionado ainda.</p>';
+            noFoodMessage.style.display = 'block';
+            errorMessageDiv.textContent = '';
             errorMessageDiv.classList.add('hidden');
-            highGlucoseMessage.classList.add('hidden');
-            lowGlucoseMessage.classList.add('hidden');
-            highChoMessage.classList.add('hidden');
-            disclaimerMessage.classList.add('hidden');
+            resultsDiv.classList.add('hidden');
+            consumedFoods = []; // Reseta a lista de alimentos
+            updateFoodSuggestions(''); // Limpa as sugestões ao abrir o modal
         }
 
-        // Adicionar alimento à lista
-        addFoodBtn.addEventListener('click', () => {
-            const foodName = foodNameInput.value.trim().toLowerCase();
-            const foodQuantity = parseFloat(foodQuantityInput.value);
+        // Função para esconder o modal de Cálculo de Insulina
+        function hideInsulinCalcModal() {
+            insulinCalcModal.classList.remove('show');
+        }
 
-            errorMessageDiv.classList.add('hidden'); // Oculta mensagens de erro anteriores
+        // Função para mostrar o modal de Glicemia Baixa
+        function showLowGlucoseModal() {
+            lowGlucoseModal.classList.add('show');
+        }
 
-            if (!foodName || isNaN(foodQuantity) || foodQuantity <= 0) {
-                errorMessageDiv.textContent = 'Por favor, insira um nome de alimento e uma quantidade válida.';
-                errorMessageDiv.classList.remove('hidden');
+        // Função para esconder o modal de Glicemia Baixa
+        function hideLowGlucoseModal() {
+            lowGlucoseModal.classList.remove('show');
+        }
+
+        // Função para mostrar o modal de Glicemia Alta
+        function showHighGlucoseModal() {
+            highGlucoseModal.classList.add('show');
+        }
+
+        // Função para esconder o modal de Glicemia Alta
+        function hideHighGlucoseModal() {
+            highGlucoseModal.classList.remove('show');
+        }
+
+        // Função para mostrar o modal da Tabela de Conversão
+        function showConversionTableModal() {
+            conversionTableModal.classList.add('show');
+            renderConversionTable(); // Renderiza a tabela ao abrir o modal
+        }
+
+        // Função para esconder o modal da Tabela de Conversão
+        function hideConversionTableModal() {
+            conversionTableModal.classList.remove('show');
+        }
+
+        // Função para mostrar o modal de Dicas para Comer Bem
+        function showEatWellTipsModal() {
+            eatWellTipsModal.classList.add('show');
+            // Limpa o conteúdo da categoria ao abrir o modal
+            foodCategoryContent.classList.add('hidden');
+            foodCategoryTitle.textContent = '';
+            foodCategoryText.textContent = '';
+        }
+
+        // Função para esconder o modal de Dicas para Comer Bem
+        function hideEatWellTipsModal() {
+            eatWellTipsModal.classList.remove('show');
+        }
+
+
+        // Função para renderizar a tabela de conversão
+        function renderConversionTable() {
+            conversionTableBody.innerHTML = ''; // Limpa o corpo da tabela
+            conversionTableData.forEach(row => {
+                const tr = document.createElement('tr');
+                const tdMedida = document.createElement('td');
+                tdMedida.textContent = row["MEDIDA CASEIRA"];
+                const tdConversao = document.createElement('td');
+                tdConversao.textContent = row["CONVERSÃO (EM GRAMAS)"];
+                tr.appendChild(tdMedida);
+                tr.appendChild(tdConversao);
+                conversionTableBody.appendChild(tr);
+            });
+        }
+
+        // Função para atualizar as sugestões do datalist
+        function updateFoodSuggestions(inputValue) {
+            foodSuggestionsDatalist.innerHTML = ''; // Limpa as sugestões anteriores
+            if (inputValue.length < 2) { // Começa a sugerir a partir de 2 caracteres
                 return;
             }
 
-            if (!cho_alimento.hasOwnProperty(foodName)) {
-                errorMessageDiv.textContent = `"${foodName}" não encontrado no banco de dados de CHO.`;
-                errorMessageDiv.classList.remove('hidden');
-                return;
-            }
+            const filteredFoods = Object.keys(cho_alimento).filter(food =>
+                food.includes(inputValue.toLowerCase())
+            );
 
-            addedFoods.push({ name: foodName, quantity: foodQuantity });
-            updateFoodListDisplay();
-            foodNameInput.value = '';
-            foodQuantityInput.value = '';
+            filteredFoods.forEach(food => {
+                const option = document.createElement('option');
+                option.value = food;
+                foodSuggestionsDatalist.appendChild(option);
+            });
+        }
+
+        // Event listener para o input de nome do alimento para gerar sugestões
+        foodNameInput.addEventListener('input', (event) => {
+            updateFoodSuggestions(event.target.value);
         });
 
-        // Atualizar exibição da lista de alimentos
-        function updateFoodListDisplay() {
-            foodListDiv.innerHTML = ''; // Limpa a lista existente
-            if (addedFoods.length === 0) {
-                noFoodMessage.classList.remove('hidden');
+        // Event listener para o botão de adicionar alimento
+        addFoodBtn.addEventListener('click', () => {
+            const foodQuantityInput = document.getElementById('foodQuantity');
+
+            const foodName = foodNameInput.value.trim().toLowerCase();
+            const quantity = parseFloat(foodQuantityInput.value);
+
+            errorMessageDiv.textContent = '';
+            errorMessageDiv.classList.add('hidden');
+
+            if (!foodName || isNaN(quantity) || quantity <= 0) {
+                errorMessageDiv.textContent = 'Por favor, insira um nome de alimento e uma quantidade válida (número maior que zero).';
+                errorMessageDiv.classList.remove('hidden');
+                return;
+            }
+
+            // Verifica se o alimento selecionado (ou digitado) existe no dicionário
+            if (!cho_alimento.hasOwnProperty(foodName)) {
+                errorMessageDiv.textContent = `Alimento "${foodNameInput.value}" não encontrado na lista. Por favor, selecione uma sugestão ou verifique a digitação.`;
+                errorMessageDiv.classList.remove('hidden');
+                return;
+            }
+
+            consumedFoods.push({ name: foodNameInput.value, quantity: quantity, cho: cho_alimento[foodName] });
+            renderFoodList();
+
+            foodNameInput.value = '';
+            foodQuantityInput.value = '';
+            foodNameInput.focus(); // Foca no campo de nome para adicionar mais
+            updateFoodSuggestions(''); // Limpa as sugestões após adicionar
+        });
+
+        // Renderiza a lista de alimentos adicionados
+        function renderFoodList() {
+            foodListDiv.innerHTML = '';
+            if (consumedFoods.length === 0) {
+                noFoodMessage.style.display = 'block';
+                foodListDiv.appendChild(noFoodMessage);
             } else {
-                noFoodMessage.classList.add('hidden');
-                addedFoods.forEach((food, index) => {
+                noFoodMessage.style.display = 'none';
+                consumedFoods.forEach((food, index) => {
                     const foodItem = document.createElement('div');
-                    foodItem.className = 'flex justify-between items-center py-1 border-b border-gray-100 last:border-b-0';
+                    foodItem.classList.add('flex', 'justify-between', 'items-center', 'py-1', 'border-b', 'border-gray-100');
                     foodItem.innerHTML = `
-                        <span class="text-gray-700">${food.name} (${food.quantity}g)</span>
-                        <button class="remove-food-btn text-red-500 hover:text-red-700 text-sm" data-index="${index}"><i class="fas fa-times"></i></button>
+                        <span class="text-sm text-dark-brown">${food.name} (${food.quantity}g)</span>
+                        <button class="text-red-500 hover:text-red-700 text-sm" data-index="${index}">Remover</button>
                     `;
                     foodListDiv.appendChild(foodItem);
                 });
-                // Adiciona listeners para os botões de remover
-                document.querySelectorAll('.remove-food-btn').forEach(button => {
-                    button.addEventListener('click', (event) => {
-                        const indexToRemove = parseInt(event.target.dataset.index);
-                        addedFoods.splice(indexToRemove, 1);
-                        updateFoodListDisplay();
-                    });
-                });
             }
         }
 
-        // Calcular insulina
+        // Delegação de evento para remover item da lista
+        foodListDiv.addEventListener('click', (event) => {
+            if (event.target.tagName === 'BUTTON' && event.target.textContent === 'Remover') {
+                const indexToRemove = parseInt(event.target.dataset.index);
+                consumedFoods.splice(indexToRemove, 1);
+                renderFoodList();
+            }
+        });
+
+        // Função para calcular o total de CHO (traduzido do Python)
+        function calculateTotalCho() {
+            let total_cho = 0;
+            consumedFoods.forEach(food => {
+                total_cho += (food.cho / 100) * food.quantity;
+            });
+            return total_cho;
+        }
+
+        // Função para calcular a insulina (traduzido do Python)
+        function calculateInsulin(glicemia_medida, total_cho, cho_correcao, glicemia_correcao, glicemia_max) {
+            let insulina_cho = 0;
+            if (total_cho >= cho_correcao) {
+                insulina_cho = total_cho / cho_correcao;
+                const decimal_part = insulina_cho - Math.floor(insulina_cho);
+                if (decimal_part >= 0.5) {
+                    insulina_cho = Math.ceil(insulina_cho);
+                } else {
+                    insulina_cho = Math.floor(insulina_cho);
+                }
+            }
+
+            let insulina_glicemia = 0;
+            if (glicemia_medida > glicemia_max) {
+                insulina_glicemia = (glicemia_medida - glicemia_max) / glicemia_correcao;
+                if (!Number.isInteger(insulina_glicemia)) {
+                    insulina_glicemia = Math.ceil(insulina_glicemia);
+                }
+            }
+
+            return insulina_cho + insulina_glicemia;
+        }
+
+        // Event listener para o botão de calcular insulina
         calculateInsulinBtn.addEventListener('click', () => {
             const choCorrecao = parseFloat(document.getElementById('choCorrecao').value);
             const glicemiaCorrecao = parseFloat(document.getElementById('glicemiaCorrecao').value);
             const glicemiaMax = parseFloat(document.getElementById('glicemiaMax').value);
             const glicemiaMedida = parseFloat(document.getElementById('glicemiaMedida').value);
 
-            // Reseta todas as mensagens de feedback
+            errorMessageDiv.textContent = '';
             errorMessageDiv.classList.add('hidden');
-            highGlucoseMessage.classList.add('hidden');
-            lowGlucoseMessage.classList.add('hidden');
-            highChoMessage.classList.add('hidden');
-            disclaimerMessage.classList.remove('hidden'); // Sempre mostra o disclaimer ao calcular
 
-            if (isNaN(choCorrecao) || isNaN(glicemiaCorrecao) || isNaN(glicemiaMax) || isNaN(glicemiaMedida)) {
-                errorMessageDiv.textContent = 'Por favor, preencha todos os campos da calculadora com números válidos.';
+            // Validação dos inputs
+            if (isNaN(choCorrecao) || choCorrecao <= 0 ||
+                isNaN(glicemiaCorrecao) || glicemiaCorrecao <= 0 ||
+                isNaN(glicemiaMax) || isNaN(glicemiaMedida)) {
+                errorMessageDiv.textContent = 'Por favor, preencha todos os campos numéricos com valores válidos e maiores que zero para as correções.';
                 errorMessageDiv.classList.remove('hidden');
                 resultsDiv.classList.add('hidden');
                 return;
             }
 
-            if (choCorrecao <= 0 || glicemiaCorrecao <= 0 || glicemiaMax <= 0) {
-                errorMessageDiv.textContent = 'Os valores de correção de CHO, correção de glicemia e glicemia máxima devem ser maiores que zero.';
-                errorMessageDiv.classList.remove('hidden');
-                resultsDiv.classList.add('hidden');
-                return;
-            }
+            const totalCho = calculateTotalCho();
+            const insulinaAplicar = calculateInsulin(glicemiaMedida, totalCho, choCorrecao, glicemiaCorrecao, glicemiaMax);
 
-            let totalChoConsumido = 0;
-            addedFoods.forEach(food => {
-                const choPer100g = cho_alimento[food.name];
-                totalChoConsumido += (choPer100g / 100) * food.quantity;
-            });
-
-            // Cálculo da insulina
-            let insulinaCho = insulinaCho = (totalChoConsumido > 0) ? totalChoConsumido / choCorrecao : 0;
-            let insulinaCorrecaoGlicemia = 0;
-
-            if (glicemiaMedida > glicemiaMax) {
-                insulinaCorrecaoGlicemia = (glicemiaMedida - glicemiaMax) / glicemiaCorrecao;
-            }
-
-            const insulinaTotal = insulinaCho + insulinaCorrecaoGlicemia;
-
-            totalChoResult.textContent = `Total de CHO consumido: ${totalChoConsumido.toFixed(1)}g`;
-            glicemiaMedidaResult.textContent = `Glicemia atual: ${glicemiaMedida} mg/dL`;
-            insulinaAplicarResult.textContent = `Insulina a aplicar: ${insulinaTotal.toFixed(1)} unidades`;
+            // Exibir resultados
+            totalChoResult.textContent = `Total de CHO ingerido: ${totalCho.toFixed(2)} g`;
+            glicemiaMedidaResult.textContent = `Glicemia medida: ${glicemiaMedida.toFixed(2)} mg/dL`;
+            insulinaAplicarResult.textContent = `Quantidade de insulina a aplicar: ${insulinaAplicar.toFixed(2)} unidades`;
             resultsDiv.classList.remove('hidden');
+        });
 
-            // Mensagens contextuais baseadas nos resultados
-            if (glicemiaMedida > 230) {
-                highGlucoseMessage.textContent = 'Notamos que sua glicemia está alta. Que tal ler o card “Glicemia alta” e medí-la novamente em 2h para avaliar a resposta do seu corpo?';
-                highGlucoseMessage.classList.remove('hidden');
-            } else if (glicemiaMedida < 60) {
-                lowGlucoseMessage.textContent = 'Notamos que sua glicemia está baixa. Que tal ler o card “Glicemia baixa” e medí-la novamente em 2h para avaliar a resposta do seu corpo?';
-                lowGlucoseMessage.classList.remove('hidden');
+        // Funções para exibir o conteúdo das categorias de alimentos
+        function displayFoodCategory(categoryName) {
+            foodCategoryTitle.textContent = categoryName;
+            foodCategoryText.innerHTML = foodTipsContent[categoryName].trim().split('\n').map(line => {
+                const trimmedLine = line.trim();
+                if (trimmedLine.startsWith('- ')) {
+                    return `<li>${trimmedLine.substring(2)}</li>`;
+                }
+                return `<p>${trimmedLine}</p>`;
+            }).join('');
+            foodCategoryContent.classList.remove('hidden');
+        }
+
+        // Event listeners para os botões de categoria de alimentos
+        btnBreakfast.addEventListener('click', () => displayFoodCategory('Café da Manhã'));
+        btnMainMeals.addEventListener('click', () => displayFoodCategory('Refeições Principais'));
+        btnSnacks.addEventListener('click', () => displayFoodCategory('Lanches'));
+        btnDesserts.addEventListener('click', () => displayFoodCategory('Sobremesas'));
+
+
+        // Event listeners para os cards
+        function handleCardClick(cardName) {
+            if (cardName === 'Cálculo de Insulina') {
+                showInsulinCalcModal();
+            } else if (cardName === 'Glicemia baixa') {
+                showLowGlucoseModal();
+            } else if (cardName === 'Glicemia alta') {
+                showHighGlucoseModal();
+            } else if (cardName === 'Tabela de Medidas') {
+                showConversionTableModal();
+            } else if (cardName === 'Dicas para comer bem') {
+                showEatWellTipsModal();
             }
+            else {
+                // Para outros cards, você pode adicionar outras lógicas aqui
+                console.log(`Card "${cardName}" clicado!`);
+            }
+        }
 
-            if (totalChoConsumido > 75) {
-                highChoMessage.textContent = 'Notamos que sua refeição tem alto teor de carboidratos. Que tal ler o card “Dicas para comer bem”, e medir sua glicemia dentro de 2h para avaliar a resposta do seu corpo?';
-                highChoMessage.classList.remove('hidden');
+        // Event listener para fechar o modal de Cálculo de Insulina
+        closeModalBtn.addEventListener('click', hideInsulinCalcModal);
+
+        // Event listener para fechar o modal de Glicemia Baixa
+        closeLowGlucoseModalBtn.addEventListener('click', hideLowGlucoseModal);
+
+        // Event listener para fechar o modal de Glicemia Alta
+        closeHighGlucoseModalBtn.addEventListener('click', hideHighGlucoseModal);
+
+        // Event listener para fechar o modal da Tabela de Conversão
+        closeConversionTableModalBtn.addEventListener('click', hideConversionTableModal);
+
+        // Event listener para fechar o modal de Dicas para Comer Bem
+        closeEatWellTipsModalBtn.addEventListener('click', hideEatWellTipsModal);
+
+
+        // Fechar modal de Cálculo de Insulina clicando fora (opcional, mas boa prática)
+        insulinCalcModal.addEventListener('click', (event) => {
+            if (event.target === insulinCalcModal) {
+                hideInsulinCalcModal();
             }
         });
 
-        // Lógica para as Dicas para Comer Bem
-        document.getElementById('btnBreakfast').addEventListener('click', () => displayFoodCategory('Café da Manhã'));
-        document.getElementById('btnMainMeals').addEventListener('click', () => displayFoodCategory('Refeições Principais'));
-        document.getElementById('btnSnacks').addEventListener('click', () => displayFoodCategory('Lanches'));
-        document.getElementById('btnDesserts').addEventListener('click', () => displayFoodCategory('Sobremesas'));
-
-        function displayFoodCategory(category) {
-            const contentDiv = document.getElementById('foodCategoryContent');
-            const titleElement = document.getElementById('foodCategoryTitle');
-            const textElement = document.getElementById('foodCategoryText');
-
-            const content = eatWellTipsContent[category];
-            if (content) {
-                titleElement.textContent = content.title;
-                textElement.textContent = content.text;
-                contentDiv.classList.remove('hidden');
-            } else {
-                contentDiv.classList.add('hidden');
+        // Fechar modal de Glicemia Baixa clicando fora (opcional, mas boa prática)
+        lowGlucoseModal.addEventListener('click', (event) => {
+            if (event.target === lowGlucoseModal) {
+                hideLowGlucoseModal();
             }
-        }
+        });
 
-        // --- Lógica do Novo Conversor de Medidas ---
-        // Define as taxas de conversão em um objeto JavaScript
-        const conversionRates = {
-            'xícara de chá': 160,
-            'xícara de café': 70,
-            'concha': 75,
-            'colher de sopa': 15,
-            'colher de chá': 5,
-            'colher de sobremesa': 8.5,
-            'copo americano': 175
-        };
-
-        // Obtém referências aos elementos DOM do conversor
-        const amountInput = document.getElementById('amount');
-        const unitSelect = document.getElementById('unit');
-        const convertButton = document.getElementById('convertButton');
-        const converterResultDiv = document.getElementById('result'); // Renomeado para evitar conflito
-        const converterResultText = document.getElementById('resultText'); // Renomeado para evitar conflito
-        const converterErrorMessageDiv = document.getElementById('errorMessage'); // Renomeado para evitar conflito
-        const converterErrorText = document.getElementById('errorText'); // Renomeado para evitar conflito
-
-        // Função para mostrar mensagens de erro do conversor
-        function showConverterErrorMessage(message) {
-            converterErrorMessageDiv.classList.remove('hidden');
-            converterResultDiv.classList.add('hidden');
-            converterErrorText.textContent = message;
-        }
-
-        // Função para esconder mensagens de erro do conversor
-        function hideConverterErrorMessage() {
-            converterErrorMessageDiv.classList.add('hidden');
-        }
-
-        // Adiciona um listener de evento ao botão de conversão do conversor
-        convertButton.addEventListener('click', () => {
-            hideConverterErrorMessage(); // Esconde mensagens de erro anteriores
-
-            const amount = parseFloat(amountInput.value); // Converte o valor para número
-            const unit = unitSelect.value; // Obtém a unidade selecionada
-
-            // Validação de entrada
-            if (isNaN(amount) || amount <= 0) {
-                showConverterErrorMessage('Por favor, insira uma quantidade numérica válida e maior que zero.');
-                return;
+        // Fechar modal de Glicemia Alta clicando fora (opcional, mas boa prática)
+        highGlucoseModal.addEventListener('click', (event) => {
+            if (event.target === highGlucoseModal) {
+                hideHighGlucoseModal();
             }
-            if (!unit) {
-                showConverterErrorMessage('Por favor, selecione uma unidade para conversão.');
-                return;
-            }
+        });
 
-            // Realiza a conversão
-            const gramsPerUnit = conversionRates[unit];
-            if (gramsPerUnit) {
-                const resultInGrams = amount * gramsPerUnit;
-                converterResultText.textContent = `${amount} ${unit}(s) = ${resultInGrams.toFixed(2)} g`; // Formata o resultado para 2 casas decimais
-                converterResultDiv.classList.remove('hidden'); // Mostra a div de resultado
-            } else {
-                showConverterErrorMessage('Unidade de conversão não encontrada. Por favor, selecione uma unidade válida.');
+        // Fechar modal da Tabela de Conversão clicando fora (opcional, mas boa prática)
+        conversionTableModal.addEventListener('click', (event) => {
+            if (event.target === conversionTableModal) {
+                hideConversionTableModal();
+            }
+        });
+
+        // Fechar modal de Dicas para Comer Bem clicando fora (opcional, mas boa prática)
+        eatWellTipsModal.addEventListener('click', (event) => {
+            if (event.target === eatWellTipsModal) {
+                hideEatWellTipsModal();
             }
         });
     </script>
